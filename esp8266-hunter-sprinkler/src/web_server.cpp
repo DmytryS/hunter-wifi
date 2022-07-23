@@ -51,8 +51,10 @@ void setup_APIRoutes()
               { handleHomePage(request); });
     server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request)
               { handleUpdate(request); });
-    server.on("/zone", HTTP_GET, [](AsyncWebServerRequest *request)
+    server.on("/run-zone", HTTP_GET, [](AsyncWebServerRequest *request)
               { handleRunZone(request); });
+    server.on("/stop-zone", HTTP_GET, [](AsyncWebServerRequest *request)
+              { handleStopZone(request); });
     server.on("/program", HTTP_GET, [](AsyncWebServerRequest *request)
               { handleRunProgram(request); });
     server.on(

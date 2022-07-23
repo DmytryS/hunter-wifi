@@ -2,9 +2,9 @@
     <script type="text/javascript">
         function submitzoneform() {
             document.getElementById("response").innerHTML = ""
-            var program = document.getElementById("program-select").value
+            var zone = document.getElementById("zone").value
 
-            var url = `api/start/program/${program}` 
+            var url = `/api/stop/zone/${zone}` 
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (this.readyState != 4) return;
@@ -20,9 +20,9 @@
             xhr.send();
         }
     </script>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css" crossorigin="anonymous">
-    <meta name="viewport" content='width=device-width, initial-scale=1.0'>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -46,25 +46,28 @@
         </ul>
     </div>
     <form
-        id="programControl"
+        id="zoneControl"
         class="pure-form pure-form-stacked"
         style="margin: 10px;"
     >
         <fieldset>
-            <legend>
-                Run Program
-            </legend>
-            <select id="program-select" class="pure-input-1-2">
-                <option selected="selected" value="1">A</option>
-                <option value="2">B</option>
-                <option value="3">C</option>
-            </select>
-            <button
-                type="button"
-                class="pure-button pure-button-primary"
-                onclick="submitzoneform()"
+            <legend>Stop Single Zone</legend>
+            <input
+                id="zone"
+                placeholder="Zone"
+                class="pure-input-1-2"
+                type="number"
+                step="1"
+                min="1"
+                max="48"
             >
-                Submit
+            <br />
+            <button
+              type="button"
+              class="pure-button pure-button-primary"
+              onclick="submitzoneform()"
+            >
+              Submit
             </button>
         </fieldset>
     </form>

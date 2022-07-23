@@ -1,11 +1,31 @@
 <head>
-    <script
-        type="text/javascript">function submitzoneform() { document.getElementById("zoneControl").action = "api/start/zone/" + document.getElementById("zone").value + "?time=" + document.getElementById("time").value; return true; }</script>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
-        crossorigin="anonymous">
+    <script type="text/javascript">
+        function submitzoneform() {
+            document.getElementById("response").innerHTML = ""
+            var zone = document.getElementById("zone").value
+            var time = document.getElementById("time").value
+
+            var url = `/api/start/zone/${zone}?time=${time}` 
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState != 4) return;
+
+                if (this.status == 200) {
+                    var data = JSON.stringify(JSON.parse(this.responseText), null, 4);
+
+                    document.getElementById("response").innerHTML = data
+                }
+            };
+
+            xhr.open('GET', url);
+            xhr.send();
+        }
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
     <div class="pure-menu pure-menu-horizontal" style="height:50px">
         <ul class="pure-menu-list">
@@ -16,15 +36,49 @@
                 <a href="/program" class="pure-menu-link">Run Program</a>
             </li>
             <li class="pure-menu-item">
-                <a href="/zone" class="pure-menu-link">Run Single Zone</a>
+                <a href="/run-zone" class="pure-menu-link">Run Single Zone</a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="/stop-zone" class="pure-menu-link">Stop Single Zone</a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="https://ecodina.github.io/hunter-wifi/#!index.md" class="pure-menu-link">WiKi</a>
             </li>
         </ul>
     </div>
-    <form method="get" id="zoneControl" class='pure-form-stacked'>
+    <form
+        id="zoneControl"
+        class="pure-form pure-form-stacked"
+        style="margin: 10px;"
+    >
         <fieldset>
-            <legend>Run Single Zone</legend><input type="text" id="zone" onchange="submitzoneform()" /
-                placeholder='Zone'><br /><input type="text" id="time" onchange="submitzoneform()"
-                placeholder='Run Time'><button type="submit" class='pure-button pure-button-primary'>Submit</button>
+            <legend>Run Single Zone</legend>
+            <input
+                id="zone"
+                placeholder="Zone"
+                type="number"
+                step="1"
+                min="1"
+                max="48"
+                class="pure-input-1-2"
+            >
+            <br />
+            <input
+                id="time"
+                placeholder="Run Time (minutes)""
+                type="number"
+                step="1"
+                min="1"
+                class="pure-input-1-2"
+            >
+            <button
+                type="button"
+                class="pure-button pure-button-primary"
+                onclick="submitzoneform()"
+            >
+                Submit
+            </button>
         </fieldset>
     </form>
+    <code style="white-space: pre-wrap;" id="response"></code>
 </body>
